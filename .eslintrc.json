@@ -17,6 +17,15 @@
     "airbnb-base"
   ],
   "rules": {
-    "import/prefer-default-export": 0
+    "@typescript-eslint/explicit-function-return-type": 2,
+    "import/prefer-default-export": 0,
+    "camelcase": 0,
+    "@typescript-eslint/camelcase": 0,
+    "import/extensions": 1,
+    "import/no-unresolved": 1,
+    "no-plusplus": 0,
+    "no-bitwise": 0,
+    "no-param-reassign": 1,
+    "no-shadow": 1
   }
 }

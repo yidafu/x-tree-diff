@@ -22,6 +22,7 @@
   "scripts": {
     "lint": "eslint --ext .ts --fix src/",
     "test": "jest",
+    "ts": "ts-node",
     "tsc": "tsc"
   },
   "lint-staged": {
@@ -44,6 +45,7 @@
     "@commitlint/cli": "^8.2.0",
     "@commitlint/config-conventional": "^8.2.0",
     "@types/jest": "^24.0.24",
+    "@types/md5": "^2.1.33",
     "@typescript-eslint/eslint-plugin": "2.7.0",
     "@typescript-eslint/parser": "2.7.0",
     "babel-eslint": "10.0.3",
@@ -61,6 +63,6 @@
   },
   "dependencies": {
     "crypto-api": "^0.8.5",
-    "upgrade": "^1.1.0"
+    "md5": "^2.2.1"
   }
 }

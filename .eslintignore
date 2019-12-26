@@ -8,3 +8,4 @@
 **/local
 **/lib
 **/dev
+*.spec.ts
