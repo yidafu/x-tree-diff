@@ -21,7 +21,8 @@
   "homepage": "https://github.com/yidafu/x-tree-diff#readme",
   "scripts": {
     "lint": "eslint --ext .ts --fix src/",
-    "test": "jest"
+    "test": "jest",
+    "tsc": "tsc"
   },
   "lint-staged": {
     "*.{ts,tsx}": [
@@ -42,6 +43,7 @@
   "devDependencies": {
     "@commitlint/cli": "^8.2.0",
     "@commitlint/config-conventional": "^8.2.0",
+    "@types/jest": "^24.0.24",
     "@typescript-eslint/eslint-plugin": "2.7.0",
     "@typescript-eslint/parser": "2.7.0",
     "babel-eslint": "10.0.3",
@@ -51,11 +53,14 @@
     "eslint-plugin-lean-imports": "0.3.3",
     "husky": "3.0.9",
     "jest": "^24.9.0",
+    "jest-config": "^24.9.0",
     "lint-staged": "^9.5.0",
     "ts-jest": "^24.2.0",
+    "ts-node": "^8.5.4",
     "typescript": "^3.7.4"
   },
   "dependencies": {
+    "crypto-api": "^0.8.5",
     "upgrade": "^1.1.0"
   }
 }
