@@ -19,11 +19,27 @@ const N_Htable = new Map<string, XTree>();
 const O_Htable = new Map<string, XTree[]>();
 const M_List = new Map<XTree, XTree>();
 
-function matchNode(node1: XTree, node2: XTree, op: EditOption): void {
+function matchNodes(node1: XTree, node2: XTree, op: EditOption): void {
   node1.Op = op;
   node2.Op = op;
   node1.nPtr = node2;
   node2.nPtr = node1;
+}
+
+function matchNodeSubtreeWith(node1: XTree, node2: XTree, op: EditOption): void {
+  const stack1 = [node1];
+  const stack2 = [node2];
+  while (stack1.length && stack2.length) {
+    const nodeA = stack1.pop() as XTree;
+    const nodeB = stack2.pop() as XTree;
+    matchNodes(nodeA, nodeB, op);
+    if (nodeA.hasChildren()) {
+      node1.forEach(node => stack1.push(node));
+    }
+    if (nodeB.hasChildren()) {
+      node2.forEach(node => stack2.push(node));
+    }
+  }
 }
 
 function initHtable(
@@ -68,7 +84,8 @@ export function xTreeDiff(T_old: XTree, T_new: XTree): void {
     if (!O_Htable.has(N_node.tMD)) {
       if (N_Htable.has(N_node.tMD)) {
         const M_node = N_Htable.get(N_node.tMD) as XTree;
-        matchNode(N_node, M_node, EditOption.NOP);
+        // subtree node will set Op in step 3
+        matchNodes(N_node, M_node, EditOption.NOP);
         M_List.set(N_node, M_node);
         return true;
       }
@@ -88,37 +105,38 @@ export function xTreeDiff(T_old: XTree, T_new: XTree): void {
       }
       if (pA.nPtr === null && pB.nPtr === null) {
         if (pA.label === pB.label) {
-          matchNode(pA, pB, EditOption.NOP);
+          matchNodes(pA, pB, EditOption.NOP);
           pA = pA.pPtr as XTree;
           pB = pB.pPtr as XTree;
         } else {
-          matchNode(A, B, EditOption.MOV);
+          matchNodes(A, B, EditOption.MOV);
           break;
         }
       } else {
         if (pA.pPtr !== null && pA.nPtr !== pB) {
-          matchNode(A, B, EditOption.MOV);
-          break;
+          matchNodes(A, B, EditOption.MOV);
         } else if (pB.pPtr !== null && pB.nPtr !== pA) {
-          matchNode(A, B, EditOption.MOV);
-          break;
+          matchNodes(A, B, EditOption.MOV);
         }
         break;
       }
     }
   }
-  // step 3 match remaining nodes
 
+  // step 3 match remaining nodes
   XTreeDFTraverse(T_old, (nodeA) => {
-    if (nodeA.nPtr !== null) {
+    if (nodeA.nPtr !== null) { // nodeA has been matched
       const cA: XTree[] = [];
+      // find all unmatched child
       nodeA.forEach((child) => {
         if (child.nPtr === null) {
           cA.push(child);
         }
       });
+
       const nodeB = nodeA.nPtr;
       const cB: XTree[] = [];
+      // find all unmatched child
       // eslint-disable-next-line no-unused-expressions
       nodeB?.forEach((child): void => {
         if (child.nPtr === null) {
@@ -129,13 +147,15 @@ export function xTreeDiff(T_old: XTree, T_new: XTree): void {
       for (let bIdx = 0; bIdx < cB.length; bIdx++) {
         const aIdx = cA.findIndex(chidA => chidA.tMD === cB[bIdx].tMD);
         if (aIdx !== -1) {
-          matchNode(cA[aIdx], cB[bIdx], EditOption.NOP);
+          matchNodeSubtreeWith(cA[aIdx], cB[bIdx], EditOption.NOP);
         } else {
-          const aLabelIdx = cA.findIndex(childA => childA.label !== cB[bIdx].label);
-          if (cA[aLabelIdx].value === cB[bIdx].value) {
-            matchNode(cA[aLabelIdx], cB[bIdx], EditOption.NOP);
-          } else {
-            matchNode(cA[aLabelIdx], cB[bIdx], EditOption.UPD);
+          const alLabelIdx = cA.findIndex(childA => childA.lLabel === cB[bIdx].lLabel);
+          if (alLabelIdx !== -1) {
+            if (cA[alLabelIdx].value === cB[bIdx].value) {
+              matchNodes(cA[alLabelIdx], cB[bIdx], EditOption.NOP);
+            } else {
+              matchNodes(cA[alLabelIdx], cB[bIdx], EditOption.UPD);
+            }
           }
         }
       }

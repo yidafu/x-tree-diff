@@ -101,7 +101,7 @@ export default class XTree {
     if (!this[tMDSym]) {
       let tMD = this.nMD;
       this.children.forEach((child) => {
-        tMD = child.tMD;
+        tMD += child.tMD;
       });
       this[tMDSym] = md4(tMD);
     }
@@ -182,5 +182,15 @@ export default class XTree {
 
   public hasChildren(): boolean {
     return this.children.length !== 0;
+  }
+
+  public getChild(idx: number): XTree | null {
+    if (typeof idx !== 'number') {
+      throw TypeError('child index must be number');
+    }
+    if (idx >= this.children.length) {
+      return null;
+    }
+    return this.children[idx];
   }
 }

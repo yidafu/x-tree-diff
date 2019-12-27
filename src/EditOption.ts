@@ -13,8 +13,8 @@ enum EditOption {
   NOP,
   INS,
   DEL,
-  MOV,
   UPD,
+  MOV,
 }
 
 export default EditOption;
