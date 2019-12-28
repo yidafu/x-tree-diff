@@ -104,4 +104,4 @@ dist
 .tern-port
 
 
-src/demo.js
+src/demo.ts

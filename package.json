@@ -46,6 +46,7 @@
     "@commitlint/config-conventional": "^8.2.0",
     "@types/jest": "^24.0.24",
     "@types/md5": "^2.1.33",
+    "@types/xml2js": "^0.4.5",
     "@typescript-eslint/eslint-plugin": "2.7.0",
     "@typescript-eslint/parser": "2.7.0",
     "babel-eslint": "10.0.3",
@@ -63,6 +64,7 @@
   },
   "dependencies": {
     "crypto-api": "^0.8.5",
-    "md5": "^2.2.1"
+    "md5": "^2.2.1",
+    "xml2js": "^0.4.23"
   }
 }
