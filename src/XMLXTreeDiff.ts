@@ -36,26 +36,40 @@ export default class XMLXTreeDiff extends XTreeDiff<string> {
       }
     });
 
-    function plainObj2XTree(obj: XMLNode): XTree | XTree[] {
-      if (Array.isArray(obj)) {
-        return obj.map((text, index) => new XTree({ type: NodeType.TEXT, index, value: text }));
-      } else if (typeOf(obj) === 'Object') {
-        return Object.keys(obj).map((label, index): XTree => {
-          const xmlNode = obj[label] as XMLNode;
-          const childXTreeNodes = plainObj2XTree(xmlNode);
-          const xTreeNode = new XTree<XMLNode>({
-            label, index, type: NodeType.ELEMENT, data: xmlNode,
+    function plainObj2XTree(obj: XMLNode, index: number): XTree | XTree[] {
+      if (typeOf(obj) === 'Object') {
+        const result: XTree[] = [];
+        Object
+          .keys(obj)
+          .forEach((label, keyIdx) => {
+            const xmlNode = obj[label] as XMLNode;
+            if (Array.isArray(xmlNode)) {
+              xmlNode.forEach((child, childIdx) => {
+                const childXTreeNodes = plainObj2XTree(child, childIdx);
+                const xTreeNode = new XTree<XMLNode>({
+                  label, index: childIdx, type: NodeType.ELEMENT, data: xmlNode,
+                });
+                xTreeNode.append(childXTreeNodes);
+                result.push(xTreeNode);
+              });
+            } else {
+              const childXTreeNodes = plainObj2XTree(xmlNode, keyIdx);
+              const xTreeNode = new XTree<XMLNode>({
+                label, index: keyIdx, type: NodeType.ELEMENT, data: xmlNode,
+              });
+              xTreeNode.append(childXTreeNodes);
+              result.push(xTreeNode);
+            }
           });
-          xTreeNode.append(childXTreeNodes);
-          return xTreeNode;
-        });
+        return result;
+      } else if (typeof obj === 'string') {
+        return new XTree({ type: NodeType.TEXT, index, value: obj });
       }
       // actually won't came here
       throw TypeError('XMLNode Must Be Object or string[]');
     }
-
     const root = new XTree({ label: ROOT_LABEL, index: 1, type: NodeType.ELEMENT });
-    const subtree = plainObj2XTree((xmlObj as unknown) as XMLNode);
+    const subtree = plainObj2XTree((xmlObj as unknown) as XMLNode, 1);
     root.append(subtree);
     return root;
   }
