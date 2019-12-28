@@ -13,7 +13,7 @@ import XTree from './XTree';
  *-------------------------------------------------------------------------- */
 
 export function typeOf(obj: any): string {
-  return Object.prototype.toString.call(obj).slice(-8, 0);
+  return Object.prototype.toString.call(obj).slice(8, -1);
 }
 
 export type visitorFn = (node: XTree) => boolean | void;

@@ -24,24 +24,26 @@ export enum NodeType {
 }
 
 
-interface IBaseParam {
+interface IBaseParam<T> {
   index: number;
   type: NodeType;
+  data?: T;
 }
 
-interface INodeParam extends IBaseParam {
+interface INodeParam<T> extends IBaseParam<T> {
   label: string;
   type: NodeType.ELEMENT;
 }
 
-interface ITextParam extends IBaseParam {
+interface ITextParam<T> extends IBaseParam<T> {
   type: NodeType.TEXT;
   value: string;
 }
 
-export type IXTreeConstructorParam = INodeParam | ITextParam;
+// FIXME: there T should keep the same with XTree<T>
+export type IXTreeConstructorParam<T = any> = INodeParam<T> | ITextParam<T>;
 
-export default class XTree {
+export default class XTree<T = any> {
   /**
    * node tag name
    *
@@ -150,13 +152,36 @@ export default class XTree {
     return `${this.lLabel}`;
   }
 
+  /**
+   * children list container
+   *
+   * @private
+   * @type {XTree[]}
+   * @memberof XTree
+   */
   private children: XTree[] = [];
 
+  /**
+   * pointer to parent XTree
+   *
+   * @type {(XTree | null)}
+   * @memberof XTree
+   */
   public pPtr: XTree | null = null;
+
+  /**
+   * extensible property.
+   * you can save original node to this property
+   *
+   * @type {T}
+   * @memberof XTree
+   */
+  public data: T;
 
   constructor(param: IXTreeConstructorParam) {
     this.index = param.index;
     this.type = param.type;
+    this.data = param.data;
     if (param.type === NodeType.ELEMENT) {
       this.label = param.label;
     } else {
@@ -165,12 +190,20 @@ export default class XTree {
     }
   }
 
-  public append(child: XTree): void {
-    if (child instanceof XTree) {
-      child.pPtr = this;
-      this.children.push(child);
+  public append(children: XTree | XTree[]): void {
+    const append = (child: XTree): void => {
+      if (child instanceof XTree) {
+        child.pPtr = this;
+        this.children.push(child);
+      } else {
+        throw TypeError(`child must be XTree, not ${typeOf(child)}`);
+      }
+    };
+
+    if (Array.isArray(children)) {
+      children.forEach(append);
     } else {
-      throw TypeError(`child should be XTree, not ${typeOf(child)}`);
+      append(children);
     }
   }
 

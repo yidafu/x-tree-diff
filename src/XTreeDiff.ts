@@ -17,7 +17,7 @@ import {
 } from './utils';
 import EditOption from './EditOption';
 
-export default class XTreeDiff {
+export default abstract class XTreeDiff<T> {
   /** @types {Map<string, XTree>}  all the nodes with unique tMD in T_new are registered to N_Htable  */
   private N_Htable = new Map < string, XTree >();
 
@@ -26,12 +26,12 @@ export default class XTreeDiff {
 
   private M_List = new Map < XTree, XTree >();
 
-  protected T_old: XTree;
-  protected T_new: XTree;
+  protected rawOld: T;
+  protected rawMew: T;
 
-  constructor(T_old: XTree, T_new: XTree) {
-    this.T_old = T_old;
-    this.T_new = T_new;
+  constructor(T_old: T, T_new: T) {
+    this.rawOld = T_old;
+    this.rawMew = T_new;
   }
 
   private matchNodes(node1: XTree, node2: XTree, op: EditOption): void {
@@ -74,8 +74,10 @@ export default class XTreeDiff {
     return tMD_map;
   }
 
-  diff(): void {
-    const { T_old, T_new } = this;
+  diff(): { oldTree: T; newTree: T } {
+    const { rawOld, rawMew } = this;
+    const T_old = this.buildXTree(rawOld);
+    const T_new = this.buildXTree(rawMew);
     // step 1 match identical subtree with 1-to-1 correspondence
     this.initHtable(T_old, (node, old_tMD_map) => {
       const isNonUnique = old_tMD_map.get(node.tMD) !== 1;
@@ -189,5 +191,15 @@ export default class XTreeDiff {
         node.Op = EditOption.INS;
       }
     });
+
+    const oldTree = this.dumpXTree(T_old);
+    const newTree = this.dumpXTree(T_new);
+    return {
+      oldTree, newTree,
+    };
   }
+
+  public abstract buildXTree(rawTree: T): XTree;
+
+  public abstract dumpXTree(xTree: XTree): T;
 }
