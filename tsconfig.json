@@ -70,5 +70,9 @@
   "include": [
     "src/**/*",
     "./node_modules/crypto-api/src/**/*"
+  ],
+  "exclude": [
+    "test/",
+    "**/*.spec.ts"
   ]
 }

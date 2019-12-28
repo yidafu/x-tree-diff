@@ -525,10 +525,10 @@
     "@types/istanbul-lib-coverage" "*"
     "@types/istanbul-lib-report" "*"
 
-"@types/jest@^24.0.24":
-  version "24.0.24"
-  resolved "https://registry.npm.taobao.org/@types/jest/download/@types/jest-24.0.24.tgz#0f2f523dc77cc1bc6bef34eaf287ede887a73f05"
-  integrity sha1-Dy9SPcd8wbxr7zTq8oft6IenPwU=
+"@types/jest@^24.0.25":
+  version "24.0.25"
+  resolved "https://registry.npm.taobao.org/@types/jest/download/@types/jest-24.0.25.tgz#2aba377824ce040114aa906ad2cac2c85351360f"
+  integrity sha1-Kro3eCTOBAEUqpBq0srCyFNRNg8=
   dependencies:
     jest-diff "^24.3.0"
 
@@ -1328,11 +1328,6 @@ crypt@~0.0.1:
   version "0.0.2"
   resolved "https://registry.npm.taobao.org/crypt/download/crypt-0.0.2.tgz#88d7ff7ec0dfb86f713dc87bbb42d044d3e6c41b"
   integrity sha1-iNf/fsDfuG9xPch7u0LQRNPmxBs=
-
-crypto-api@^0.8.5:
-  version "0.8.5"
-  resolved "https://registry.npm.taobao.org/crypto-api/download/crypto-api-0.8.5.tgz#dd60f34889ed3b46e0e42ff4f01fe750fb5a4dc6"
-  integrity sha1-3WDzSIntO0bg5C/08B/nUPtaTcY=
 
 cssom@0.3.x, "cssom@>= 0.3.2 < 0.4.0":
   version "0.3.8"

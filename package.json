@@ -1,8 +1,9 @@
 {
-  "name": "@dov/x-tree-diff",
+  "name": "@dovyih/x-tree-diff",
   "version": "0.0.1",
   "description": "A implementation for *X-tree Diff: An Efficient Change Detection Algorithm for Tree-structured Data*",
-  "main": "src/index.js",
+  "private": false,
+  "main": "dist/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/yidafu/x-tree-diff.git"
@@ -19,11 +20,15 @@
     "url": "https://github.com/yidafu/x-tree-diff/issues"
   },
   "homepage": "https://github.com/yidafu/x-tree-diff#readme",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "lint": "eslint --ext .ts --fix src/",
     "test": "jest",
     "ts": "ts-node",
-    "tsc": "tsc"
+    "prepublishOnly": "rm -fr dsit && yarn build",
+    "build": "tsc --build tsconfig.json"
   },
   "lint-staged": {
     "*.{ts,tsx}": [
@@ -44,7 +49,7 @@
   "devDependencies": {
     "@commitlint/cli": "^8.2.0",
     "@commitlint/config-conventional": "^8.2.0",
-    "@types/jest": "^24.0.24",
+    "@types/jest": "^24.0.25",
     "@types/md5": "^2.1.33",
     "@types/xml2js": "^0.4.5",
     "@typescript-eslint/eslint-plugin": "2.7.0",
@@ -63,7 +68,6 @@
     "typescript": "^3.7.4"
   },
   "dependencies": {
-    "crypto-api": "^0.8.5",
     "md5": "^2.2.1",
     "xml2js": "^0.4.23"
   }
