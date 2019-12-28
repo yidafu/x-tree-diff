@@ -13,14 +13,8 @@
 import XTreeDiff from './XTreeDiff';
 import XTree, { NodeType } from './XTree';
 
-interface XMLNode {
-  [label: string]: XMLNode | string[];
-}
-
 const DOM_ELEMENT_TYPE = 1;
 const DOM_TEXT_TYPE = 3;
-
-export const ROOT_LABEL = 'root';
 
 export default class HMLTXTreeDiff extends XTreeDiff<HTMLElement> {
   // eslint-disable-next-line class-methods-use-this

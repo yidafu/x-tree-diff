@@ -1,5 +1,3 @@
-import XTree from './XTree';
-
 /* --------------------------------------------------------------------------*
  * Description:                                                              *
  *                                                                           *
@@ -11,6 +9,7 @@ import XTree from './XTree';
  *                                                                           *
  * Copyright 2019 - 2019 Mozilla Public License 2.0                          *
  *-------------------------------------------------------------------------- */
+import XTree from './XTree';
 
 export function typeOf(obj: any): string {
   return Object.prototype.toString.call(obj).slice(8, -1);
