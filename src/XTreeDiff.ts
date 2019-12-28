@@ -1,4 +1,3 @@
-/* eslint-disable class-methods-use-this */
 /* --------------------------------------------------------------------------*
  * Description:                                                              *
  *                                                                           *
@@ -10,6 +9,7 @@
  *                                                                           *
  * Copyright 2019 - 2019 Mozilla Public License 2.0                          *
  *-------------------------------------------------------------------------- */
+/* eslint-disable class-methods-use-this */
 import XTree from './XTree';
 import {
   XTreeDFTraverse,

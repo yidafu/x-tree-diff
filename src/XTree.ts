@@ -199,7 +199,6 @@ export default class XTree<T = any> {
         throw TypeError(`child must be XTree, not ${typeOf(child)}`);
       }
     };
-
     if (Array.isArray(children)) {
       children.forEach(append);
     } else {
