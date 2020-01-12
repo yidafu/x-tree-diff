@@ -25,18 +25,30 @@ const html1 = `<div>
 const html2 =  `<div>
   <p>yidafu(dov yih)</p>
   <code>x-tree-diff</code>
+  <p>yidafu(dov yih)</p>
 </div>`;
 
-document.body.innerHTML = `
-  <div id="div1">${html1}</div>
-  <div id="div2">${html2}</div>
-`;
+const html3 =  `<div>
+  <section>
+    <section>
+      <p>yidafu(dov yih)</p>
+      <code>x-tree-diff</code>
+      <p>yidafu(dov yih)</p>
+    </section>
+  </section>
+</div>`;
 
-const $div1 = document.getElementById('div1') as HTMLElement;
-const $div2 = document.getElementById('div2') as HTMLElement;
 
 describe("HTMLXTreeDiff", () => {
-  test('diff', () => {
+  test('a change node', () => {
+    document.body.innerHTML = `
+      <div id="div1">${html1}</div>
+      <div id="div2">${html2}</div>
+    `;
+    
+    const $div1 = document.getElementById('div1') as HTMLElement;
+    const $div2 = document.getElementById('div2') as HTMLElement;
+
     const xmlDiff = new HTMLXTreeDiff($div1, $div2);
     const { oldTree, newTree } = xmlDiff.diff();
     expect(oldTree.innerHTML).toBe(
@@ -48,6 +60,36 @@ describe("HTMLXTreeDiff", () => {
 `<div op="${EditOption.NOP}">
   <p op="${EditOption.NOP}">yidafu(dov yih)</p>
   <code op="${EditOption.INS}">x-tree-diff</code>
+  <p op="${EditOption.NOP}">yidafu(dov yih)</p>
+</div>`);
+  });
+
+  test('diff', () => {
+    document.body.innerHTML = `
+      <div id="div1">${html2}</div>
+      <div id="div2">${html3}</div>
+    `;
+    
+    const $div1 = document.getElementById('div1') as HTMLElement;
+    const $div2 = document.getElementById('div2') as HTMLElement;
+
+    const xmlDiff = new HTMLXTreeDiff($div1, $div2);
+    const { oldTree, newTree } = xmlDiff.diff();
+    expect(oldTree.innerHTML).toBe(
+`<div op="${EditOption.NOP}">
+  <p op="${EditOption.DEL}">yidafu(dov yih)</p>
+  <code op="${EditOption.MOV}">x-tree-diff</code>
+  <p op="${EditOption.DEL}">yidafu(dov yih)</p>
+</div>`);
+    expect(newTree.innerHTML).toBe(
+`<div op="${EditOption.NOP}">
+  <section op="${EditOption.INS}">
+    <section op="${EditOption.INS}">
+      <p op="${EditOption.INS}">yidafu(dov yih)</p>
+      <code op="${EditOption.MOV}">x-tree-diff</code>
+      <p op="${EditOption.INS}">yidafu(dov yih)</p>
+    </section>
+  </section>
 </div>`);
   });
 });
