@@ -199,7 +199,7 @@ export default abstract class XTreeDiff<T> {
     };
   }
 
-  public abstract buildXTree(rawTree: T): XTree;
+  public abstract buildXTree(rawTree: any): XTree;
 
   public abstract dumpXTree(xTree: XTree): T;
 }
