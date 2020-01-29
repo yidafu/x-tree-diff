@@ -74,8 +74,9 @@ export default class XMLXTreeDiff extends XTreeDiff<string> {
     return root;
   }
 
+  // FIXME: remove return any
   // eslint-disable-next-line class-methods-use-this
-  public dumpXTree(xTree: XTree): string {
+  public dumpXTree(xTree: XTree): any {
     function traverse(node: XTree): string {
       if (node.type === NodeType.ELEMENT) {
         let treeStr = '';

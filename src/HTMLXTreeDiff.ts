@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 /* --------------------------------------------------------------------------*
  * Description:                                                              *
  *                                                                           *
@@ -20,10 +21,10 @@ export default class HMLTXTreeDiff extends XTreeDiff<HTMLElement> {
   // eslint-disable-next-line class-methods-use-this
   public buildXTree(domNode: HTMLElement): XTree {
     if (!(domNode instanceof HTMLElement)) {
-      throw TypeError('param `body` must be HTMLBodyElement');
+      throw TypeError('param `domNode` must be HTMLElement');
     }
 
-    function dom2XTree(node: Node, index: number): XTree {
+    function dom2XTree(node: Node, index: number): XTree<Node> {
       let xTreeNode: XTree<Node>;
       switch (node.nodeType) {
         case DOM_ELEMENT_TYPE: {
@@ -41,7 +42,7 @@ export default class HMLTXTreeDiff extends XTreeDiff<HTMLElement> {
           break;
         }
         case DOM_TEXT_TYPE: {
-          xTreeNode = new XTree({
+          xTreeNode = new XTree<Node>({
             type: NodeType.TEXT, index, value: node.nodeValue ?? '', data: node,
           });
           break;
@@ -58,9 +59,11 @@ export default class HMLTXTreeDiff extends XTreeDiff<HTMLElement> {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  public dumpXTree(xTree: XTree<Node>): HTMLElement {
-    function traverse(node: XTree): void {
+  public dumpXTree<HTMLElement>(xTree: XTree<HTMLElement>): HTMLElement {
+    function traverse(node: XTree<HTMLElement>): void {
       if (node.type === NodeType.ELEMENT) {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+        // @ts-ignore whyyyy??
         node.data.setAttribute('op', String(node.Op));
         node.forEach((child) => {
           traverse(child);
@@ -71,6 +74,6 @@ export default class HMLTXTreeDiff extends XTreeDiff<HTMLElement> {
     }
 
     traverse(xTree);
-    return (xTree.data as HTMLElement);
+    return xTree.data;
   }
 }

@@ -4,6 +4,7 @@
   "description": "A implementation for *X-tree Diff: An Efficient Change Detection Algorithm for Tree-structured Data*",
   "private": false,
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/yidafu/x-tree-diff.git"
@@ -21,7 +22,8 @@
   },
   "homepage": "https://github.com/yidafu/x-tree-diff#readme",
   "files": [
-    "dist"
+    "dist",
+    "index.d.ts"
   ],
   "scripts": {
     "lint": "eslint --ext .ts --fix src/",

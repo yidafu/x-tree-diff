@@ -49,10 +49,10 @@ export default abstract class XTreeDiff<T> {
       const nodeB = stack2.pop() as XTree;
       this.matchNodes(nodeA, nodeB, op);
       if (nodeA.hasChildren()) {
-        node1.forEach(node => stack1.push(node));
+        nodeA.forEach(node => stack1.push(node));
       }
       if (nodeB.hasChildren()) {
-        node2.forEach(node => stack2.push(node));
+        nodeB.forEach(node => stack2.push(node));
       }
     }
   }
@@ -92,13 +92,14 @@ export default abstract class XTreeDiff<T> {
     });
 
     this.initHtable(T_new, (node, new_tMD_map) => {
+      // dulicate node which has the same tMD
       const isUnique = new_tMD_map.get(node.tMD) === 1;
       if (isUnique) {
         this.N_Htable.set(node.tMD, node);
       }
     });
 
-    XTreeDFTraverse(T_old, (N_node): boolean => {
+    XTreeDFTraverse(T_old, (N_node: XTree): boolean => {
       if (!this.O_Htable.has(N_node.tMD)) {
         if (this.N_Htable.has(N_node.tMD)) {
           const M_node = this.N_Htable.get(N_node.tMD) as XTree;
@@ -142,7 +143,7 @@ export default abstract class XTreeDiff<T> {
     }
 
     // step 3 match remaining nodes
-    XTreeDFTraverse(T_old, (nodeA) => {
+    XTreeDFTraverse(T_old, (nodeA: XTree) => {
       if (nodeA.nPtr !== null) { // nodeA has been matched
         const cA: XTree[] = [];
         // find all unmatched child
@@ -181,12 +182,12 @@ export default abstract class XTreeDiff<T> {
     });
 
     // step 4  determine node for addition and deletion
-    XTreeBFTraverse(T_old, (node) => {
+    XTreeBFTraverse(T_old, (node: XTree) => {
       if (node.nPtr === null) {
         node.Op = EditOption.DEL;
       }
     });
-    XTreeBFTraverse(T_new, (node) => {
+    XTreeBFTraverse(T_new, (node: XTree) => {
       if (node.nPtr === null) {
         node.Op = EditOption.INS;
       }
@@ -201,5 +202,6 @@ export default abstract class XTreeDiff<T> {
 
   public abstract buildXTree(rawTree: any): XTree;
 
-  public abstract dumpXTree(xTree: XTree): T;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public abstract dumpXTree<Y = any>(xTree: XTree): Y;
 }
