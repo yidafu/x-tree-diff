@@ -59,11 +59,10 @@ export default class HMLTXTreeDiff extends XTreeDiff<HTMLElement> {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  public dumpXTree<HTMLElement>(xTree: XTree<HTMLElement>): HTMLElement {
+  public dumpXTree(xTree: XTree<HTMLElement>): HTMLElement {
     function traverse(node: XTree<HTMLElement>): void {
       if (node.type === NodeType.ELEMENT) {
         // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-        // @ts-ignore whyyyy??
         node.data.setAttribute('op', String(node.Op));
         node.forEach((child) => {
           traverse(child);

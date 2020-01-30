@@ -202,6 +202,5 @@ export default abstract class XTreeDiff<T> {
 
   public abstract buildXTree(rawTree: any): XTree;
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public abstract dumpXTree<Y = any>(xTree: XTree): Y;
+  public abstract dumpXTree(xTree: XTree): any;
 }
