@@ -1,6 +1,6 @@
 {
   "name": "@dovyih/x-tree-diff",
-  "version": "0.0.2-alpha.1",
+  "version": "0.0.3-alpha.7",
   "description": "A implementation for *X-tree Diff: An Efficient Change Detection Algorithm for Tree-structured Data*",
   "private": false,
   "main": "dist/index.js",
@@ -31,7 +31,7 @@
     "ts": "ts-node",
     "prepublishOnly": "rm -fr dsit && yarn build",
     "build": "tsc --build tsconfig.json",
-    "release": "echo \"Enter release version: \" && read VERSION && npm version $VERSION git commit -am \"[release] $VERSION\" && git push origin tags/v$VERSION && npm publish"
+    "release": "echo \"Enter release version: \" && read VERSION && npm version $VERSION && git commit -am \"[release] $VERSION\" && git push origin tags/v$VERSION && npm publish"
   },
   "lint-staged": {
     "*.{ts,tsx}": [
