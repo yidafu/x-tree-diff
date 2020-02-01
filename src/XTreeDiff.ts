@@ -74,7 +74,7 @@ export default abstract class XTreeDiff<T> {
     return tMD_map;
   }
 
-  diff(): { oldTree: T; newTree: T } {
+  diff<Y>(): { oldTree: Y; newTree: Y } {
     const { rawOld, rawMew } = this;
     const T_old = this.buildXTree(rawOld);
     const T_new = this.buildXTree(rawMew);

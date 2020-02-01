@@ -71,7 +71,7 @@ describe("HTMLXTreeDiff", () => {
     const $div2 = document.getElementById('div2') as HTMLElement;
 
     const xmlDiff = new HTMLXTreeDiff($div1, $div2);
-    const { oldTree, newTree } = xmlDiff.diff();
+    const { oldTree, newTree } = xmlDiff.diff<HTMLElement>();
     expect(oldTree.innerHTML).toBe(
 `<div op="${EditOption.NOP}">
   <p op="${EditOption.NOP}">yidafu(dov yih)</p>
@@ -95,7 +95,7 @@ describe("HTMLXTreeDiff", () => {
     const $div2 = document.getElementById('div2') as HTMLElement;
 
     const xmlDiff = new HTMLXTreeDiff($div1, $div2);
-    const { oldTree, newTree } = xmlDiff.diff();
+    const { oldTree, newTree } = xmlDiff.diff<HTMLElement>();
     expect(oldTree.innerHTML).toBe(
 `<div op="${EditOption.NOP}">
   <section op="${EditOption.NOP}">
@@ -126,7 +126,7 @@ describe("HTMLXTreeDiff", () => {
     const $div2 = document.getElementById('div2') as HTMLElement;
 
     const xmlDiff = new HTMLXTreeDiff($div1, $div2);
-    const { oldTree, newTree } = xmlDiff.diff();
+    const { oldTree, newTree } = xmlDiff.diff<HTMLElement>();
 
     expect(oldTree.innerHTML).toBe(
 `<div op="${EditOption.NOP}">
