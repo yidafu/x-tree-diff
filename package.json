@@ -30,8 +30,7 @@
     "test": "jest",
     "ts": "ts-node",
     "prepublishOnly": "rm -fr dsit && yarn build",
-    "build": "tsc --build tsconfig.json",
-    "release": "echo \"Enter release version: \" && read VERSION && npm version $VERSION && npm publish  && git push origin v$VERSION"
+    "build": "tsc --build tsconfig.json"
   },
   "lint-staged": {
     "*.{ts,tsx}": [
