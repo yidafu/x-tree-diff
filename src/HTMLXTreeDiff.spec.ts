@@ -46,6 +46,19 @@ const html4 =  `<div>
   </section>
 </div>`;
 
+const html5 =  `<div>
+  <section>
+    <section>
+      <section>
+        <p>yidafu(dov yih)</p>
+        <code>x-tree-diff</code>
+        <p>yidafu(dov yih)</p>
+      </section>
+    </section>
+  </section>
+</div>`;
+
+
 
 describe("HTMLXTreeDiff", () => {
   test('a change node', () => {
@@ -72,7 +85,7 @@ describe("HTMLXTreeDiff", () => {
 </div>`);
   });
 
-  test('diff', () => {
+  test('one layer nesting', () => {
     document.body.innerHTML = `
       <div id="div1">${html3}</div>
       <div id="div2">${html4}</div>
@@ -99,6 +112,41 @@ describe("HTMLXTreeDiff", () => {
       <code op="${EditOption.MOV}">x-tree-diff</code>
       <p op="${EditOption.NOP}">yidafu(dov yih)</p>
     </section>
+  </section>
+</div>`);
+  });
+
+  test('two layer nesting', () => {
+    document.body.innerHTML = `
+      <div id="div1">${html5}</div>
+      <div id="div2">${html3}</div>
+    `;
+    
+    const $div1 = document.getElementById('div1') as HTMLElement;
+    const $div2 = document.getElementById('div2') as HTMLElement;
+
+    const xmlDiff = new HTMLXTreeDiff($div1, $div2);
+    const { oldTree, newTree } = xmlDiff.diff();
+
+    expect(oldTree.innerHTML).toBe(
+`<div op="${EditOption.NOP}">
+  <section op="${EditOption.DEL}">
+    <section op="${EditOption.DEL}">
+      <section op="${EditOption.NOP}">
+        <p op="${EditOption.NOP}">yidafu(dov yih)</p>
+        <code op="${EditOption.MOV}">x-tree-diff</code>
+        <p op="${EditOption.DEL}">yidafu(dov yih)</p>
+      </section>
+    </section>
+  </section>
+</div>`);
+
+    expect(newTree.innerHTML).toBe(
+`<div op="${EditOption.NOP}">
+  <section op="${EditOption.NOP}">
+    <p op="${EditOption.NOP}">yidafu(dov yih)</p>
+    <code op="${EditOption.MOV}">x-tree-diff</code>
+    <p op="${EditOption.NOP}">yidafu(dov yih)</p>
   </section>
 </div>`);
   });
