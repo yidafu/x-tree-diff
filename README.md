@@ -71,3 +71,19 @@ Othor:
 + `XTreeDiff` abstract class. Implemetn core `X-Tree Diff` alogrithm
 + `XTree` core data struct
 + `EditOption`, five option: `NOP`,`INS`,`DEL`,`UPD`,`MOV`
+
+## Date Structure
+
+| property |  description |
+| --- | -- |
+| lable | tag name|
+| type | Element or Text Node|
+| value |  text string value |
+| index | |
+| nMD | |
+| tMD | |
+| nPtr |  |
+| Op | EditOption |
+| nId | |
+| pPtr | |
+| data | extra data field |
