@@ -20,10 +20,10 @@ export type visitorFn = (node: XTree) => boolean | void;
  * Depth-First pre-order Traverse
  *
  * @export
- * @param {XTree} root
- * @param {(node: XTree) => boolean} visitor
+ * @param {XTree<T>} root
+ * @param {(node: XTree<T>) => boolean} visitor
  */
-export function XTreeDFTraverse(root: XTree, visitor: visitorFn): void {
+export function XTreeDFTraverse<T>(root: XTree<T>, visitor: visitorFn): void {
   if (!root) return;
   const stack = [root];
   while (stack.length) {
@@ -41,15 +41,15 @@ export function XTreeDFTraverse(root: XTree, visitor: visitorFn): void {
  * Breadth-First pre-order Traverse
  *
  * @export
- * @param {XTree} root
- * @param {(node: XTree) => boolean} visitor don't visit children if visitor return false
+ * @param {XTree<T>} root
+ * @param {(node: XTree<T>) => boolean} visitor don't visit children if visitor return true
  * @returns {void}
  */
-export function XTreeBFTraverse(root: XTree, visitor: visitorFn): void {
+export function XTreeBFTraverse<T>(root: XTree<T>, visitor: visitorFn): void {
   if (!root) return;
   const queue = [root];
   while (queue.length) {
-    const node = queue.shift() as XTree;
+    const node = queue.shift() as XTree<T>;
     const stop = visitor(node);
     if (!stop && node.hasChildren()) {
       node.forEach(child => queue.push(child));
