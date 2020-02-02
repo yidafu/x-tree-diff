@@ -15,6 +15,7 @@ enum EditOption {
   DEL,
   UPD,
   MOV,
+  CPY, // for X-Tree Diff+
 }
 
 export default EditOption;
