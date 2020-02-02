@@ -58,7 +58,10 @@ const html5 =  `<div>
   </section>
 </div>`;
 
-
+const html6 = `<div>
+  <span>x-tree-diff</span>
+  <p>yidafu(dov yih)</p>
+</div>`;
 
 describe("HTMLXTreeDiff", () => {
   test('a change node', () => {
@@ -71,7 +74,7 @@ describe("HTMLXTreeDiff", () => {
     const $div2 = document.getElementById('div2') as HTMLElement;
 
     const xmlDiff = new HTMLXTreeDiff($div1, $div2);
-    const { oldTree, newTree } = xmlDiff.diff<HTMLElement>();
+    const { oldTree, newTree } = xmlDiff.diff();
     expect(oldTree.innerHTML).toBe(
 `<div op="${EditOption.NOP}">
   <p op="${EditOption.NOP}">yidafu(dov yih)</p>
@@ -95,7 +98,7 @@ describe("HTMLXTreeDiff", () => {
     const $div2 = document.getElementById('div2') as HTMLElement;
 
     const xmlDiff = new HTMLXTreeDiff($div1, $div2);
-    const { oldTree, newTree } = xmlDiff.diff<HTMLElement>();
+    const { oldTree, newTree } = xmlDiff.diff();
     expect(oldTree.innerHTML).toBe(
 `<div op="${EditOption.NOP}">
   <section op="${EditOption.NOP}">
@@ -126,7 +129,7 @@ describe("HTMLXTreeDiff", () => {
     const $div2 = document.getElementById('div2') as HTMLElement;
 
     const xmlDiff = new HTMLXTreeDiff($div1, $div2);
-    const { oldTree, newTree } = xmlDiff.diff<HTMLElement>();
+    const { oldTree, newTree } = xmlDiff.diff();
 
     expect(oldTree.innerHTML).toBe(
 `<div op="${EditOption.NOP}">
@@ -149,5 +152,28 @@ describe("HTMLXTreeDiff", () => {
     <p op="${EditOption.NOP}">yidafu(dov yih)</p>
   </section>
 </div>`);
+  });
+
+  test('children out of order', () => {
+    document.body.innerHTML = `
+      <div id="div1">${html1}</div>
+      <div id="div2">${html6}</div>
+    `;
+    
+    const $div1 = document.getElementById('div1') as HTMLElement;
+    const $div2 = document.getElementById('div2') as HTMLElement;
+
+    const xmlDiff = new HTMLXTreeDiff($div1, $div2);
+    const { oldTree, newTree } = xmlDiff.diff();
+    expect(oldTree.innerHTML).toBe(
+`<div op="${EditOption.NOP}">
+  <p op="${EditOption.NOP}">yidafu(dov yih)</p>
+  <span op="${EditOption.NOP}">x-tree-diff</span>
+</div>`);
+expect(oldTree.innerHTML).toBe(
+  `<div op="${EditOption.NOP}">
+    <p op="${EditOption.NOP}">yidafu(dov yih)</p>
+    <span op="${EditOption.MOV}">x-tree-diff</span>
+  </div>`);
   });
 });

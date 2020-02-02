@@ -79,9 +79,9 @@ export default function createTree1(): XTree {
   });
 
   /*
-        a
-       / \
-      b _ h
+         a
+       /  \
+      b _  h
     /  \ \
    c   f  h
  / \  / \
