@@ -42,7 +42,7 @@ export function XTreeDFTraverse(root: XTree, visitor: visitorFn): void {
  *
  * @export
  * @param {XTree} root
- * @param {(node: XTree) => boolean} visitor
+ * @param {(node: XTree) => boolean} visitor don't visit children if visitor return false
  * @returns {void}
  */
 export function XTreeBFTraverse(root: XTree, visitor: visitorFn): void {

@@ -24,23 +24,22 @@ export enum NodeType {
 }
 
 
-interface IBaseParam<T> {
+export interface IBaseParam<T> {
   index: number;
   type: NodeType;
   data?: T;
 }
 
-interface INodeParam<T> extends IBaseParam<T> {
+export interface INodeParam<T> extends IBaseParam<T> {
   label: string;
   type: NodeType.ELEMENT;
 }
 
-interface ITextParam<T> extends IBaseParam<T> {
+export interface ITextParam<T> extends IBaseParam<T> {
   type: NodeType.TEXT;
   value: string;
 }
 
-// FIXME: there T should keep the same with XTree<T>
 export type IXTreeConstructorParam<T = any> = INodeParam<T> | ITextParam<T>;
 
 export default class XTree<T = any> {
