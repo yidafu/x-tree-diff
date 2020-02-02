@@ -69,7 +69,7 @@ export default class XTree<T = any> {
   public value = '';
 
   /**
-   *
+   * child index
    *
    * @type {number}
    * @memberof XTree
@@ -111,7 +111,7 @@ export default class XTree<T = any> {
   }
 
   /**
-   *
+   * node pointer to anther XTree
    *
    * @type {XTree}
    * @memberof XTree
@@ -119,7 +119,7 @@ export default class XTree<T = any> {
   public nPtr: XTree | null = null;
 
   /**
-   *
+   * edit option
    *
    * @type {EditOption}
    * @memberof XTree
